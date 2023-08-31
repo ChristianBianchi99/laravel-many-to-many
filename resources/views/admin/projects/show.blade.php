@@ -15,6 +15,13 @@
                 <p>
                     {{ $project->description }}
                 </p>
+                @if(isset($project->technologies))
+                    <div class="my-3">
+                        @foreach ($project->technologies as $item)    
+                            <span class="badge text-bg-success align-self-center me-2">{{ $item->name }}</span>
+                        @endforeach
+                    </div>
+                @endif
                 @if (isset($project->cover_image))
                     <img src="{{ asset('storage/'.$project->cover_image) }}" alt="Cover {{ $project->name }}">
                 @endif

@@ -24,7 +24,17 @@ class UpdateProjectRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'name' => 'required|max:50',
+            'description' => 'required|max:500'
+        ];
+    }
+
+    public function messages(){
+        return[
+            'name.required' => 'Il nome è obbligatorio',
+            'name.max' => 'Il nome supera la lunghezza massima di :max',
+            'description.required' => 'La descrizione è obbligatoria',
+            'description.max' => 'La lunghezza massima consentita per la descrizione è di :max'
         ];
     }
 }

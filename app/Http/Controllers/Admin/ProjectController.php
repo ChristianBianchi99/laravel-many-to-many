@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Models\Project;
 use App\Models\Type;
+use App\Models\Technology;
 use App\Http\Requests\StoreProjectRequest;
 use App\Http\Requests\UpdateProjectRequest;
 use App\Http\Controllers\Controller;
@@ -31,7 +32,8 @@ class ProjectController extends Controller
     {
         $projects = Project::all();
         $types = Type::all();
-        return view('admin.projects.create', compact('types', 'projects'));
+        $technologies = Technology::all();
+        return view('admin.projects.create', compact('types', 'projects', 'technologies'));
     }
 
     /**
@@ -54,6 +56,10 @@ class ProjectController extends Controller
         $project->fill($form_data);
 
         $project->save();
+
+        if($request->has('technologies')){
+            $project->technologies()->attach($request->technologies);
+        }
         
         return redirect()->route('admin.projects.index');
     }
@@ -67,7 +73,8 @@ class ProjectController extends Controller
     public function show(Project $project)
     {
         $types = Type::all();
-        return view('admin.projects.show', compact('project', 'types'));
+        $technologies = Technology::all();
+        return view('admin.projects.show', compact('project', 'types', 'technologies'));
     }
 
     /**
@@ -79,7 +86,8 @@ class ProjectController extends Controller
     public function edit(Project $project)
     {
         $types = Type::all();
-        return view('admin.projects.edit', compact('project', 'types'));
+        $technologies = Technology::all();
+        return view('admin.projects.edit', compact('project', 'types', 'technologies'));
     }
 
     /**
@@ -100,6 +108,10 @@ class ProjectController extends Controller
         }
 
         $project->update($form_data);
+
+        if($request->has('technologies')){
+            $project->technologies()->sync($request->technologies);
+        }
 
         return redirect()->route('admin.projects.index');
     }

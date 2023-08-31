@@ -40,6 +40,12 @@
                         <option value="{{ $type->id }}" {{ $type->id == old('type_id', $project->type_id) ? 'selected' : ''}}>{{ $type->name }}</option>
                     @endforeach
                 </select>
+                <div class="form-group my-3">
+                    <div class="form-group-text">Scegli le tecnologie utilizzate</div>
+                    @foreach ($technologies as $technology)
+                        <input class="form-check-input" type="checkbox" name="technologies[]" id="technologies" value='{{ $technology->id }}' {{$errors->any() ? (in_array($technology->id, old('technologies', [])) ? 'checked' : '') : ($project->technologies->contains($technology) ? 'checked' : '') }}> {{ $technology->name }}
+                    @endforeach
+                </div>
                 <div class="btns justify-content-end my-3">
                     <button type="submit" class="btn btn-primary mx-3">
                         Aggiorna
